@@ -2,6 +2,7 @@ package bencode
 
 import (
 	"bytes"
+	// "time"
 )
 
 // Torrent represents the structure of a torrent file
@@ -50,3 +51,20 @@ func (d *BencodeDecoder) readByte() (byte, error) {
 func (d *BencodeDecoder) unreadByte() error {
 	return d.reader.UnreadByte()
 }
+
+
+// TorrentMetadata holds parsed magnet link information
+type MagnetMetadata struct {
+    InfoHash    []byte
+    DisplayName string
+    UDPTrackers []string
+}
+
+// Protocol constants as defined in BEP 15 (will be used for connecting to peers using the trackers, will be implemented later)
+// const (
+//     connectionID     = int64(0x41727101980)     // Magic constant for connection request
+//     actionConnect    = int32(0)                 // Identifies a connect request/response
+//     actionAnnounce   = int32(1)                 // Identifies an announce request/response
+//     timeoutDuration  = 15 * time.Second         // Timeout for UDP responses
+//     maxRetries       = 1                        // Maximum number of retry attempts
+// )
