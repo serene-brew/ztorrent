@@ -1,2 +1,3 @@
 .torrent.db
-./build
+
+/build
