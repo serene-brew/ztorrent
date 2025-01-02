@@ -5,6 +5,7 @@ import (
 	"os"
 
 	bencode "github.com/serene-brew/ztorrent/bencode"
+	crawler "github.com/serene-brew/ztorrent/crawler"
 )
 
 func main() {
@@ -30,4 +31,25 @@ func main() {
     for _, tracker := range metadata.UDPTrackers {
         fmt.Printf("  %s\n", tracker)
     }
+
+	fmt.Println(crawler.GenTrackerStub())
+
+	query := "green book"
+	data, err := crawler.GetInfoMediaQuery(query)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// Print the result
+	for _, record := range data {
+		fmt.Println(record)
+		for i, _ := range record{
+			if i == 7 {
+				fmt.Println(crawler.ClassifyCategory(record[i].(string)))
+			} 
+		}
+	}
+	magnet := crawler.GetMagnet(data[0][2].(string), data[0][1].(string))
+	fmt.Println(magnet)
 }
