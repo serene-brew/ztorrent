@@ -1,6 +1,6 @@
 # Variables
 APP_NAME := ztorrent
-GO_FILES := ./torrent/$(wildcard *.go)
+GO_FILES := $(wildcard *.go)
 BUILD_DIR := build
 
 # Default target
