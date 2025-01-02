@@ -60,6 +60,12 @@ func main() {
 
     fmt.Println(magnet)
 
+
+    err = mag.GetPeersFromFile("example.torrent")
+    if err != nil {
+        fmt.Println("Error getting peers:", err)
+        os.Exit(1)
+    }
 }
 
 
