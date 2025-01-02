@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	torrent, err := bencode.ParseTorrentFile("../example.torrent")
+	torrent, err := bencode.ParseTorrentFile("example.torrent")
 	if err != nil {
 		fmt.Println("error reading the torrent file")
 		os.Exit(1)
