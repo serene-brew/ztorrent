@@ -19,3 +19,10 @@ func DefaultConfig() Config {
         Seed:        false,
     }
 }
+
+type FileSelection struct {
+    Extensions []string
+    MaxSize    int64
+    MinSize    int64
+    Paths      []string
+}
