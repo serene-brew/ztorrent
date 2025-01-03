@@ -1,51 +1,32 @@
 package torrent
 
 import (
-    "fmt"
-    "net/url"
+	"fmt"
+	"net/url"
 
-    "github.com/anacrolix/torrent"
-    "github.com/anacrolix/torrent/metainfo"
+	"github.com/anacrolix/torrent"
+	bencode "github.com/serene-brew/ztorrent/bencode"
 )
 
 // generateMagnetFromFile generates a magnet link from a torrent file
-func generateMagnetFromFile(torrentPath string) (string, error) {
-    metaInfo, err := metainfo.LoadFromFile(torrentPath)
-    if err != nil {
-        return "", fmt.Errorf("failed to load torrent file: %v", err)
-    }
-
-    info, err := metaInfo.UnmarshalInfo()
-    if err != nil {
-        return "", fmt.Errorf("failed to unmarshal torrent info: %v", err)
-    }
-
-    infoHash := metaInfo.HashInfoBytes().HexString()
-    name := url.QueryEscape(info.Name)
-    
-    // Handle trackers
-    trackerParams := ""
-    if len(metaInfo.AnnounceList) == 0 && metaInfo.Announce != "" {
-        trackerParams = "&tr=" + url.QueryEscape(metaInfo.Announce)
-    } else {
-        for _, tracker := range metaInfo.AnnounceList {
-            for _, trackerURL := range tracker {
-                trackerParams += "&tr=" + url.QueryEscape(trackerURL)
-            }
-        }
-    }
-
-    return fmt.Sprintf("magnet:?xt=urn:btih:%s&dn=%s%s", infoHash, name, trackerParams), nil
-}
-
-// printTorrentInfo prints torrent metadata and peer information
-func printTorrentInfo(tor *torrent.Torrent) {
-    fmt.Printf("\nTorrent Info:\n")
-    fmt.Printf("Name: %s\n", tor.Name())
-    fmt.Printf("Info Hash: %x\n", tor.InfoHash())
-    fmt.Printf("Total Length: %d bytes\n", tor.Length())
-    
-    printPeerInfo(tor)
+func generateMagnetFromFile(torrentPath string) (string, error){
+	torrent, err := bencode.ParseTorrentFile(torrentPath)
+	if err != nil{
+		fmt.Println("error reading torrent file")
+		return "", err
+	}
+	name := url.QueryEscape(torrent.Info.Name)
+	infoHash := torrent.InfoHash
+	trackerStub := ""
+	for _, trackerArr := range torrent.AnnounceList{
+		for _, tracker := range trackerArr{
+			trackerStub += "&tr="+url.QueryEscape(tracker)				
+		}
+	}
+	
+	magnetLink := fmt.Sprintf("magnet:?xt=urn:btih:%s&dn=%s%s", infoHash, name, trackerStub)
+	return magnetLink, nil
+	
 }
 
 // printPeerInfo prints peer statistics and list
