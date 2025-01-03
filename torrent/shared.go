@@ -214,7 +214,7 @@ func GetPeersFromFile(torrentPath string) error {
 
     select {
     case <-tor.GotInfo():
-        printTorrentInfo(tor)
+        printPeerInfo(tor)
         fmt.Printf("\nMagnet Link: %s\n", magnetLink)
     case <-ctx.Done():
         return fmt.Errorf("timeout waiting for torrent info")
@@ -244,7 +244,7 @@ func GetPeers(magnetURI string) error {
 
     select {
     case <-tor.GotInfo():
-        printTorrentInfo(tor)
+        printPeerInfo(tor)
     case <-ctx.Done():
         return fmt.Errorf("timeout waiting for torrent info")
     }
