@@ -76,7 +76,7 @@ func ClassifyCategory(categoryID string) string {
 	return category[category_ID]
 }
 
-func ConvertSize(sizeBytes int64) string {
+func ConvertSize(sizeBytes int, error error) string {
 	if sizeBytes == 0 {
 		return "0B"
 	}
@@ -89,5 +89,5 @@ func ConvertSize(sizeBytes int64) string {
 }
 
 func GetMagnet(info_hash string, name string) string {
-	return "magnet:?xt=urn:btih:" + info_hash + "&dn=" + name + "&tr=" + GenTrackerStub()
+	return "magnet:?xt=urn:btih:" + info_hash + "&dn=" + url.QueryEscape(name) + "&tr=" + GenTrackerStub()
 }
