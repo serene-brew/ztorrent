@@ -125,7 +125,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					for i, record := range m.crawlResults{
 						category := crawler.ClassifyCategory(record[7].(string))
 						rows = append(rows, table.Row{
-								strconv.Itoa(i), 
+								strconv.Itoa(i+1), 
 								record[1].(string), 
 								crawler.ConvertSize(strconv.Atoi(record[6].(string))), 
 								record[3].(string), 
