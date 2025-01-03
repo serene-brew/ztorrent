@@ -45,15 +45,15 @@ func printPeerInfo(tor *torrent.Torrent) {
         }
     }
 
-    fmt.Printf("\nPeer List:\n")
-    for _, peer := range tor.KnownSwarm() {
-        if peer.Addr != nil {
-            addr := peer.Addr.String()
-            status := "[x]" // Inactive
-            if activeMap[addr] {
-                status = "[+]" // Active
-            }
-            fmt.Printf("- %s %s\n", status, addr)
-        }
-    }
+    // fmt.Printf("\nPeer List:\n")
+    // for _, peer := range tor.KnownSwarm() {
+    //     if peer.Addr != nil {
+    //         addr := peer.Addr.String()
+    //         status := "[x]" // Inactive
+    //         if activeMap[addr] {
+    //             status = "[+]" // Active
+    //         }
+    //         fmt.Printf("- %s %s\n", status, addr)
+    //     }
+    // }
 }
