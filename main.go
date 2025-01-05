@@ -8,7 +8,9 @@ import (
 	"os"
 	"strings"
 )
-
+// ZTORRENT TEST CODE
+// this is a test script for testing out the torrent functions
+// the TUI entrypoint will be coded later into main.go
 func main() {
 	// Torrent file parsing and peers extraction
 	torrent, err := bencode.ParseTorrentFile("example.torrent")
