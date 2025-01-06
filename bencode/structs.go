@@ -52,12 +52,11 @@ func (d *BencodeDecoder) unreadByte() error {
 	return d.reader.UnreadByte()
 }
 
-
 // TorrentMetadata holds parsed magnet link information
 type MagnetMetadata struct {
-    InfoHash    []byte
-    DisplayName string
-    UDPTrackers []string
+	InfoHash    []byte
+	DisplayName string
+	UDPTrackers []string
 }
 
 // Protocol constants as defined in BEP 15 (will be used for connecting to peers using the trackers, will be implemented later)

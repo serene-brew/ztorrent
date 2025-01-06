@@ -17,7 +17,7 @@
 //     cfg.NoDHT = false
 //     cfg.DisablePEX = false
 //     cfg.ListenPort = 0 // System assigned port as per available range
-    
+
 //     // Add retry logic
 //     var client *torrent.Client
 //     var err error
@@ -61,7 +61,7 @@
 //         fmt.Printf("Name: %s\n", tor.Name())
 //         fmt.Printf("Info Hash: %x\n", tor.InfoHash())
 //         fmt.Printf("Total Length: %d bytes\n", tor.Length())
-        
+
 //         printFileInfo(tor)  // Add this line
 //         printPeerInfo(tor)
 //         fmt.Printf("\nMagnet Link: %s\n", magnetLink)
@@ -97,7 +97,7 @@
 //         fmt.Printf("Name: %s\n", tor.Name())
 //         fmt.Printf("Info Hash: %x\n", tor.InfoHash())
 //         fmt.Printf("Total Length: %d bytes\n", tor.Length())
-        
+
 //         printDetailedFileInfo(tor)  // Add this line
 //         printPeerInfo(tor)
 //     case <-ctx.Done():
@@ -117,7 +117,7 @@
 //         case <-ticker.C:
 //             stats := tor.Stats()
 //             if stats.TotalPeers > 0 {
-//                 fmt.Printf("\rPeers: %d Active, %d Total", 
+//                 fmt.Printf("\rPeers: %d Active, %d Total",
 //                     stats.ActivePeers, stats.TotalPeers)
 //             }
 //         case <-ctx.Done():
@@ -125,7 +125,6 @@
 //         }
 //     }
 // }
-
 
 // func printFileInfo(tor *torrent.Torrent) {
 //     info := tor.Info()
@@ -144,8 +143,8 @@
 //     // Multiple files torrent
 //     for _, file := range info.Files {
 //         path := append([]string{info.Name}, file.Path...)
-//         fmt.Printf("- %s (%d bytes)\n", 
-//             joinPath(path), 
+//         fmt.Printf("- %s (%d bytes)\n",
+//             joinPath(path),
 //             file.Length)
 //     }
 // }
@@ -153,7 +152,6 @@
 // func joinPath(parts []string) string {
 //     return strings.Join(parts, "/")
 // }
-
 
 // func humanReadableSize(bytes int64) string {
 //     const unit = 1024
@@ -184,7 +182,7 @@
 //     }
 
 //     fmt.Printf("\n=== Files Information ===\n")
-    
+
 //     if len(info.Files) == 0 {
 //         // Single file torrent
 //         ext := getFileExtension(info.Name)
@@ -207,7 +205,7 @@
 //         path := append([]string{info.Name}, file.Path...)
 //         fullPath := joinPath(path)
 //         ext := getFileExtension(file.Path[len(file.Path)-1])
-        
+
 //         filesByExt[ext] = append(filesByExt[ext], fullPath)
 //         sizeByExt[ext] += file.Length
 //         totalSize += file.Length
@@ -222,8 +220,8 @@
 //     fmt.Printf("Total Size: %s\n", humanReadableSize(totalSize))
 //     fmt.Printf("File Types:\n")
 //     for ext, files := range filesByExt {
-//         fmt.Printf("- %s: %d files (%s)\n", 
-//             ext, 
+//         fmt.Printf("- %s: %d files (%s)\n",
+//             ext,
 //             len(files),
 //             humanReadableSize(sizeByExt[ext]))
 //     }
@@ -254,7 +252,7 @@
 //     <-tor.GotInfo()
 
 //     tor.DownloadAll()
-    
+
 //     startTime := time.Now()
 //     ctx, cancel := context.WithTimeout(context.Background(), 30*time.Minute)
 //     defer cancel()
@@ -266,9 +264,9 @@
 //         default:
 //             completed := tor.BytesCompleted()
 //             total := tor.Length()
-            
+
 //             printProgress(completed, total, startTime)
-            
+
 //             if tor.BytesCompleted() == tor.Length() {
 //                 fmt.Printf("\nDownload completed successfully\n")
 //                 return nil
@@ -282,11 +280,11 @@
 //     width := 50
 //     percentage := float64(completed) * 100 / float64(total)
 //     filled := int(float64(width) * float64(completed) / float64(total))
-    
+
 //     // Calculate speed
 //     elapsed := time.Since(startTime).Seconds()
 //     speed := float64(completed) / elapsed // bytes per second
-    
+
 //     // Calculate ETA
 //     var eta float64
 //     if speed > 0 {
@@ -295,7 +293,7 @@
 
 //     // Create progress bar
 //     bar := strings.Repeat("=", filled) + strings.Repeat(" ", width-filled)
-    
+
 //     // Format speed and ETA
 //     var speedStr, etaStr string
 //     if speed < 1024 {
@@ -315,35 +313,33 @@
 //     fmt.Printf("\r[%s] %.1f%% %s %s", bar, percentage, speedStr, etaStr)
 // }
 
-
-
 package torrent
 
 import (
-    "fmt"
-    "time"
-    "github.com/anacrolix/torrent"
+	"fmt"
+	"github.com/anacrolix/torrent"
+	"time"
 )
 
 func createTorrentClient(dataDir string) (*torrent.Client, error) {
-    cfg := torrent.NewDefaultClientConfig()
-    cfg.Seed = false
-    cfg.Debug = false
-    cfg.NoDHT = false
-    cfg.DisablePEX = false
-    cfg.ListenPort = 0
-    if dataDir != "" {
-        cfg.DataDir = dataDir
-    }
+	cfg := torrent.NewDefaultClientConfig()
+	cfg.Seed = false
+	cfg.Debug = false
+	cfg.NoDHT = false
+	cfg.DisablePEX = false
+	cfg.ListenPort = 0
+	if dataDir != "" {
+		cfg.DataDir = dataDir
+	}
 
-    var client *torrent.Client
-    var err error
-    for retries := 0; retries < 3; retries++ {
-        client, err = torrent.NewClient(cfg)
-        if err == nil {
-            return client, nil
-        }
-        time.Sleep(time.Second)
-    }
-    return nil, fmt.Errorf("failed to create client after retries: %v", err)
+	var client *torrent.Client
+	var err error
+	for retries := 0; retries < 3; retries++ {
+		client, err = torrent.NewClient(cfg)
+		if err == nil {
+			return client, nil
+		}
+		time.Sleep(time.Second)
+	}
+	return nil, fmt.Errorf("failed to create client after retries: %v", err)
 }

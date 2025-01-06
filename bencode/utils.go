@@ -1,10 +1,10 @@
 package bencode
 
 import (
-	"fmt"
-	"io"
 	"bytes"
 	"encoding/binary"
+	"fmt"
+	"io"
 )
 
 // Decode parses Bencoded data into an interface{}
@@ -122,26 +122,25 @@ func (d *BencodeDecoder) readDict() (map[string]interface{}, error) {
 	return dict, nil
 }
 
-
 // Encode encodes an interface{} into Bencoded data
 func BuildPacket(connectionID int64, action int32, transactionID int32) []byte {
-    var buf bytes.Buffer
-    binary.Write(&buf, binary.BigEndian, connectionID)
-    binary.Write(&buf, binary.BigEndian, action)
-    binary.Write(&buf, binary.BigEndian, transactionID)
-    return buf.Bytes()
+	var buf bytes.Buffer
+	binary.Write(&buf, binary.BigEndian, connectionID)
+	binary.Write(&buf, binary.BigEndian, action)
+	binary.Write(&buf, binary.BigEndian, transactionID)
+	return buf.Bytes()
 }
 
 // ParseResponse parses a UDP response packet
 func ParseResponse(data []byte) (int32, int32, int64) {
-    var action int32
-    var transactionID int32
-    var connectionID int64
+	var action int32
+	var transactionID int32
+	var connectionID int64
 
-    buffer := bytes.NewReader(data)
-    binary.Read(buffer, binary.BigEndian, &action)
-    binary.Read(buffer, binary.BigEndian, &transactionID)
-    binary.Read(buffer, binary.BigEndian, &connectionID)
+	buffer := bytes.NewReader(data)
+	binary.Read(buffer, binary.BigEndian, &action)
+	binary.Read(buffer, binary.BigEndian, &transactionID)
+	binary.Read(buffer, binary.BigEndian, &connectionID)
 
-    return action, transactionID, connectionID
+	return action, transactionID, connectionID
 }
