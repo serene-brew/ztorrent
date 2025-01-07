@@ -23,6 +23,13 @@ func (m FilePickerModel) Init() tea.Cmd {
 	return m.filepicker.Init()
 }
 
+// Update processes messages received by the file picker model and updates its state.
+// Parameters:
+//   - msg: A message that triggers state updates (e.g., key presses).
+//
+// Returns:
+//   - The updated file picker model.
+//   - A command to be executed by the program.
 func (m FilePickerModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	mainModel := model{}
 	switch msg := msg.(type) {
@@ -57,6 +64,9 @@ func (m FilePickerModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, cmd
 }
 
+// View renders the file picker UI as a string.
+// Returns:
+//   - A string representation of the current UI state.
 func (m FilePickerModel) View() string {
 	if m.quitting {
 		return ""
@@ -72,6 +82,11 @@ func (m FilePickerModel) View() string {
 	return s.String()
 }
 
+// ExecutePickerStub initializes and runs the file picker program.
+// Parameters:
+//   - screen: The initial screen state to set for the file picker.
+//
+// This function starts the Bubble Tea program loop and handles any errors encountered.
 func ExecutePickerStub(screen DMAState) {
 	fp := filepicker.New()
 	fp.AllowedTypes = []string{".torrent"}
