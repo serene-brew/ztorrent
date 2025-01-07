@@ -44,9 +44,18 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.styles.tableBorder = m.styles.tableBorder.BorderForeground(gloss.Color(m.styles.inactiveColor))
 				return m, nil
 			case "@":
-				m.focus = tableFocus
-				m.styles.inputBorder = m.styles.inputBorder.BorderForeground(gloss.Color(m.styles.inactiveColor))
-				m.styles.tableBorder = m.styles.tableBorder.BorderForeground(gloss.Color(m.styles.activeColor))
+				noResItem := m.crawlResults[0][6].(string)
+				if noResItem == "0" {
+					m.focus = inputFocus
+					m.styles.inputBorder = m.styles.inputBorder.BorderForeground(gloss.Color(m.styles.activeColor))
+					m.styles.tableBorder = m.styles.tableBorder.BorderForeground(gloss.Color(m.styles.inactiveColor))
+				} else {
+
+					m.focus = tableFocus
+					m.styles.inputBorder = m.styles.inputBorder.BorderForeground(gloss.Color(m.styles.inactiveColor))
+					m.styles.tableBorder = m.styles.tableBorder.BorderForeground(gloss.Color(m.styles.activeColor))
+
+				}
 				return m, nil
 			case "q", "ctrl+c":
 				m.currentScreen = ListScreen
