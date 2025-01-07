@@ -1,7 +1,7 @@
 package main
 
+// Standard library imports
 import (
-	// Standard library imports
 	"fmt"
 	"os"
 	"path/filepath"
